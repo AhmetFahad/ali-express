@@ -1,6 +1,6 @@
 nokogiri = Nokogiri.HTML(content)
 
-products = nokogiri.at_css("li.list-item")
+products = nokogiri.css("li.list-item")
 
 products.each do |product|
   title = product.css(".item-title").text
