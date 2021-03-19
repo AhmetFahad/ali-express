@@ -21,7 +21,7 @@ products.each do |product|
 end  
 
 
-page_number = html.css('.next-pagination-pages .next-pagination-list button').last.text.to_i
+page_number = nokogiri.css('.next-pagination-pages .next-pagination-list button').last.text.to_i
 if vars['page'] < page_number
   pages << {
     url: "https://www.aliexpress.com/category/7/computer-office.html?trafficChannel=main&catName=computer-office&CatId=7&ltype=wholesale&SortType=default&page=#{vars['page']+1}&isrefine=y",
