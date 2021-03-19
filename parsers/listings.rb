@@ -22,11 +22,10 @@ end
 
 
 page_number = html.css('.next-pagination-pages .next-pagination-list button').last.text.to_i
-// write your code to scrape product list here
 if vars['page'] < page_number
   pages << {
     url: "https://www.aliexpress.com/category/7/computer-office.html?trafficChannel=main&catName=computer-office&CatId=7&ltype=wholesale&SortType=default&page=#{vars['page']+1}&isrefine=y",
-   // write rest of the code
+    page_type: 'listings'
    vars: {
      page_number: vars['page_number'] + 1
    }
