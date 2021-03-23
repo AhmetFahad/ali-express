@@ -1,19 +1,16 @@
 nokogiri = Nokogiri.HTML(content)
 
-products = nokogiri.css("li.list-item")
+products = nokogiri.css(".list-item")
 
 products.each do |product|
-  title = product.css(".item-title").text
-  a = product.css(".place-container a")
+  a = product.css(".item-title-wrap a")
   if a
     url = URI.join('https:', a.attr('href')).to_s.split('?').first
-    if url =~ /\Ahttps?:\/\//i
+    if url =~ /\Ahttps?:\/\/.+/
       pages << {
         url: url,
         page_type: 'products',
-        vars: {
-          'title' => title
-        }
+        vars: {}
 
       }
     end
@@ -21,13 +18,12 @@ products.each do |product|
 end  
 
 
-page_number = nokogiri.css('.next-pagination-pages .next-pagination-list button').last.text.to_i
-if vars['page'] < page_number
+pagination = nokogiri.css('.next-btn').select{ |element| /Page \d, \d pages/.match(element.attr('aria-label'))}
+pagination.each.with_index do |pag,i|
   pages << {
-    url: "https://www.aliexpress.com/category/7/computer-office.html?trafficChannel=main&catName=computer-office&CatId=7&ltype=wholesale&SortType=default&page=#{vars['page']+1}&isrefine=y",
+    url: "https://www.aliexpress.com/category/7/computer-office.html?trafficChannel=main&catName=computer-office&CatId=7&ltype=wholesale&SortType=default&page=#{i+2}",
     page_type: 'listings',
-   vars: {
-     page_number: vars['page_number'] + 1
+    vars: {
    }
   }
 end
